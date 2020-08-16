@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: html-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      type: html
+  template:
+    metadata:
+      labels:
+        type: html
+    spec:
+      containers:
+      - name: html-code
+        image: ajaytyagi/kube_httpd
+
+        ports:
+        - containerPort: 80
+
+        volumeMounts:
+        - name: html-volume
+          mountPath: /var/log/httpd
+      volumes:
+      - name: html-volume
+        persistentVolumeClaim:
+            claimName: webserver-html
