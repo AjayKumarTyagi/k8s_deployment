@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+       type: php
+  template:
+    metadata:
+     name: php-code
+     labels:
+       type: php
+    spec:
+      containers:
+      - name: php-code
+        image: ajaytyagi/kube_php
+
+        volumeMounts:
+        - name: php-volume
+          mountPath: /var/log/httpd
+      volumes:
+      - name: php-volume
+        persistentVolumeClaim:
+            claimName: webserver-php
